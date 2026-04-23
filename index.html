@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>مسجل الصوت</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="favicon.png">
+<meta name="theme-color" content="#7c3aed">
+<style>
+*{box-sizing:border-box;font-family:system-ui,Tajawal,Arial}
+body{margin:0;background:#0f0f14;color:#fff;min-height:100vh;display:flex;flex-direction:column}
+header{padding:18px;text-align:center;background:#1a1625;border-bottom:1px solid #2a2438}
+h1{margin:0;font-size:1.4rem}
+main{flex:1;padding:20px;max-width:600px;margin:0 auto;width:100%}
+.card{background:#1e1b2e;border:1px solid #2d2640;border-radius:20px;padding:24px;margin-bottom:16px}
+.controls{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+button{border:0;border-radius:14px;padding:14px 22px;font-size:1rem;font-weight:600;cursor:pointer;transition:.2s}
+#recBtn{background:#7c3aed;color:white}
+#recBtn.recording{background:#ef4444;animation:pulse 1.5s infinite}
+#pauseBtn{background:#3b3654;color:#ddd}
+#stopBtn{background:#2a2438;color:#aaa}
+button:disabled{opacity:.4;cursor:not-allowed}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+.timer{font-size:2.2rem;text-align:center;margin:20px 0;font-variant-numeric:tabular-nums}
+.wave{display:flex;gap:3px;height:40px;align-items:center;justify-content:center;margin:10px 0}
+.wave span{width:4px;background:#7c3aed;border-radius:2px;height:8px;transition:.1s}
+.wave.active span{animation:wave 1s infinite ease-in-out}
+@keyframes wave{0%,100%{height:8px}50%{height:32px}}
+.list{display:grid;gap:12px}
+.item{background:#252136;padding:14px;border-radius:14px;display:flex;align-items:center;gap:12px}
+.item audio{flex:1;height:36px}
+.item .meta{font-size:.85rem;color:#aaa;min-width:80px}
+.item button{background:#3b3654;padding:8px 12px;font-size:.85rem}
+.folder-box{display:flex;gap:8px;align-items:center;background:#13101d;padding:12px;border-radius:12px;margin-top:12px}
+.folder-box button{padding:8px 14px;font-size:.9rem}
+small{color:#9a8fc0}
+</style>
+</head>
+<body>
+<header><h1>🎤 مسجل الصوت PWA</h1></header>
+<main>
+<div class="card">
+  <div class="wave" id="wave"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+  <div class="timer" id="timer">00:00</div>
+  <div class="controls">
+    <button id="recBtn">بدء التسجيل</button>
+    <button id="pauseBtn" disabled>إيقاف مؤقت</button>
+    <button id="stopBtn" disabled>إنهاء</button>
+  </div>
+  <div class="folder-box">
+    <small>مكان الحفظ:</small>
+    <button id="chooseFolder">اختر المجلد</button>
+    <small id="folderName">التنزيلات الافتراضية</small>
+  </div>
+</div>
+
+<div class="card">
+  <h3 style="margin-top:0">التسجيلات المحفوظة</h3>
+  <div class="list" id="list"></div>
+  <p id="empty" style="color:#777;text-align:center">لا توجد تسجيلات بعد</p>
+</div>
+</main>
+
+<script src="app.js"></script>
+<script>
+if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js')}
+</script>
+</body>
+</html>
